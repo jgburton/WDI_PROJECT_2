@@ -1,1 +1,1 @@
-"use strict";console.log("app.js working");
+"use strict";var googleMap=googleMap||{},google=google;googleMap.mapSetup=function(){console.log("running"),console.log(google);var o=document.getElementById("map-container"),e={zoom:10,center:new google.maps.LatLng(51.506178,(-.088369)),mapTypeId:google.maps.MapTypeId.ROADMAP};this.map=new google.maps.Map(o,e)},$(googleMap.mapSetup.bind(googleMap));
