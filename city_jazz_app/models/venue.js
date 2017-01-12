@@ -5,7 +5,7 @@
 //
 // 	- Then create your restaurant model
 
-const mongoose = require ('mongoose');
+const mongoose = require('mongoose');
 
 const venueSchema = mongoose.Schema({
   name: { type: String, trim: true, required: true },
@@ -17,4 +17,4 @@ const venueSchema = mongoose.Schema({
   price: { type: String, trim: true }
 });
 
-module.exports = mongoose.model('Venue', userSchema);
+module.exports = mongoose.model('Venue', venueSchema);

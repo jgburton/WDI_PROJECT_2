@@ -4,10 +4,10 @@
 
 const Venue = require('../models/venue');
 
-function usersIndex(req, res) {
-  User.find((err, users) => {
+function venuesIndex(req, res) {
+  Venue.find((err, venues) => {
     if (err) return res.status(500).json({ message: 'Something went wrong.' });
-    return res.status(200).json({ users });
+    return res.status(200).json({ venues });
   });
 }
 

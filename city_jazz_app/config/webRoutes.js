@@ -3,8 +3,8 @@ const express = require('express');
 const router  = express.Router();
 
 // require pathway to contollers for statics and venues
-const staticsController = require ('../controllers/statics');
-const venuesController  = require ('../controllers/venues')
+const staticsController = require('../controllers/statics');
+const venuesController  = require('../controllers/venues');
 
 //For navigating the web app...
 router.route('/')

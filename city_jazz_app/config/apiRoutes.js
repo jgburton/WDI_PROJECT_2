@@ -12,14 +12,13 @@ const router  = express.Router();
 const authentications = require('../controllers/authentications');
 const venues          = require('../controllers/venues');
 
-router.route('/register')
-  .post(authentications.register);
-router.route('/login')
-  .post(authentications.login);
+// router.route('/register')
+//   .post(authentications.register);
+// router.route('/login')
+//   .post(authentications.login);
 
 router.route('venues')
   .get(venues.index);
-router.route('venues/:id')
-  .get(venues.show);
+
 
 module.exports = router;
