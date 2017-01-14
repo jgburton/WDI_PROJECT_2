@@ -12,9 +12,11 @@ const venueSchema = mongoose.Schema({
   phone: { type: String, trim: true },
   address: { type: String, trim: true },
   image: { type: String, trim: true },
-  Info: { type: String, trim: true },
+  info: { type: String, trim: true },
   url: { type: String, trim: true },
-  price: { type: String, trim: true }
+  price: { type: String, trim: true },
+  lat: { type: String, trim: true, required: true },
+  lng: { type: String, trim: true, required: true }
 });
 
 module.exports = mongoose.model('Venue', venueSchema);

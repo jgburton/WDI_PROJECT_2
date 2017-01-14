@@ -4,13 +4,10 @@ const router  = express.Router();
 
 // require pathway to contollers for statics and venues
 const staticsController = require('../controllers/statics');
-const venuesController  = require('../controllers/venues');
 
 //For navigating the web app...
+// home
 router.route('/')
-  .get(staticsController.home);
-
-router.route('/venues')
-  .get(venuesController.index);
+.get(staticsController.home);
 
 module.exports = router;

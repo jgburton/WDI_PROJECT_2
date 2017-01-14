@@ -1,3 +1,52 @@
+
+const rp = require('request-promise');
+const mongoose = require('mongoose');
+const Venue = require('../models/venue');
+const databaseUrl = require('../config/config').db;
+
+mongoose.connect(databaseUrl);
+Venue.collection.drop();
+
+const options = {
+  uri: 'https://api.yelp.com/v3/businesses/search?location=london&categories=jazzandblues&limit=50',
+  headers: {
+    'Authorization': 'Bearer _pcOBAeOtgFajv0cPq4JVfzdOvN5OY03HzBtVkLIBF-Xwl4ohfEASvu4RnyqnQL_Da2nbziSZUzbz3pUiczUwpcOL99LBR3DmVgMasXrB-A6oaBiDiSTlm09pGd3WHYx'
+  },
+  json: true // Automatically parses the JSON string in the response
+};
+
+rp(options)
+.then(data => {
+  data.businesses.forEach(venue => {
+    const newVenue =  new Venue({
+      name: venue.name,
+      lng: venue.coordinates.longitude,
+      lat: venue.coordinates.latitude
+    });
+
+    newVenue.save((err, venue) => {
+      console.log(`${venue.name} was created`);
+    });
+  });
+});
+
+
+// data.forEach(place => {
+//   Place.create(place, (err, place) => {
+//     console.log(`${place.name} was created`);
+//   });
+// });
+
+// $.ajax({
+//   url: 'https://api.yelp.com/v3/businesses/search?location=london&categories=jazzandblues&limit=50',
+//   method: 'GET',
+//   beforeSend: function(request) {
+//     request.setRequestHeader('Authorization', 'Bearer _pcOBAeOtgFajv0cPq4JVfzdOvN5OY03HzBtVkLIBF');
+//   }
+// }).done( data => {
+//   console.log(data);
+// });
+
 // 10. Seeds
 // 	- WE ARE NOT GOING TO FULLY BUILD OUT SEEDS YET! Just a couple of examples to test.
 //
@@ -16,17 +65,3 @@
 // ---
 //
 // **Huzzah!** We have set up our API, seeded in one user and one instance of our main resource. This means we can now build out a more robust seeds file, then move on to start building the front end of our application.
-
-
-
-// SOLUTION
-
-// $.ajax({
-//   url: 'https://api.yelp.com/v3/businesses/search?location=london&categories=jazzandblues&limit=50',
-//   method: 'GET',
-//   beforeSend: function(request) {
-//     request.setRequestHeader('Authorization', 'Bearer _pcOBAeOtgFajv0cPq4JVfzdOvN5OY03HzBtVkLIBF');
-//   }
-// }).done( data => {
-//   console.log(data);
-// });

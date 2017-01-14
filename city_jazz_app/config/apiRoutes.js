@@ -17,8 +17,14 @@ const venues          = require('../controllers/venues');
 // router.route('/login')
 //   .post(authentications.login);
 
-router.route('venues')
+router.route('/venues')
   .get(venues.index);
+
+  // register as a member
+router.route('/register')
+  .post(authentications.register);
+router.route('/login')
+.post(authentications.login);
 
 
 module.exports = router;

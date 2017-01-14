@@ -9,6 +9,8 @@
   "author": "jgranthamburton@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.13.4",
     "gulp-babel": "^6.1.2",
@@ -18,7 +20,8 @@
     "jake": "^8.0.12",
     "mongoose": "^4.4.3",
     "q": "^1.4.1",
-    "request-promise": "^2.0.0",
+    "request": "^2.79.0",
+    "request-promise": "^2.0.1",
     "xml2json": "^0.9.0"
   },
   "devDependencies": {
