@@ -172,11 +172,17 @@ googleMap.register = function(e){
             lng: position.coords.longitude
           };
           const latlng = new google.maps.LatLng(pos.lat, pos.lng);
-          const marker = new google.maps.Marker({
+
+          const icon = {
+            url: '../images/user_on_map_2_small.png',
+            scaledSize: new google.maps.Size(60,60)
+          };
+
+          new google.maps.Marker({
             position: latlng,
             map: googleMap.map,
             animation: google.maps.Animation.DROP,
-            icon: '../images/user_on_map_2_small.png'
+            icon: icon
 
           });
         });
