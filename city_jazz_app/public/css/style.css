@@ -1,1 +1,1 @@
-body{margin:0}#map-container{width:100%;height:100vh;margin:0 auto}.navbar{margin-bottom:0}.imageModal{height:350px;width:350px}
+body{margin:0}#map-container{width:100%;height:100vh;margin:0 auto}.navbar{margin-bottom:0}.imageModal{width:auto;max-width:400px;height:auto;max-height:300px}
