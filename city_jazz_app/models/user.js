@@ -79,7 +79,7 @@ function validateEmail(email) {
 
 // validating password - comparing passwordhash to password
 function validatePassword(passoword){
-  return bcrypt.copmareSync(passoword, this.passwordHash);
+  return bcrypt.compareSync(passoword, this.passwordHash);
 }
 
 // To limit jason output (any unnecessary...)

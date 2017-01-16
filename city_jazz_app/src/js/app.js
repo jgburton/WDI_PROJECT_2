@@ -1,4 +1,4 @@
-// console.log('app.js working');
+// console.log('googleMap.js working');
 
 // Above binds googleMap to this as an object
 // Need to use OOP to put map on the web page...
@@ -6,19 +6,160 @@
 const googleMap = googleMap || {};
 const google    = google;
 
-// App.init
+// googleMap.init
+//AUTHENTICATION
+googleMap.init = function() {
+  this.apiUrl = 'http://localhost:3000/api';
+  this.$modal = $('.modal-content');
+  $('.register').on('click', this.register.bind(this));
+  $('.login').on('click', this.login.bind(this));
+  $('.logout').on('click', this.logout.bind(this));
+  this.$modal.on('submit', 'form', this.handleForm);
+  this.$modal.on('click', '.close', this.repositionMap);
+  // this.$modal.on('hidden', this.repositonMap);
 
+  this.mapSetup();
 
+  if (this.getToken()) {
+    this.loggedInState();
+  } else {
+    this.loggedOutState();
+  }
+};
 
+googleMap.repositionMap = function(){
+  setTimeout(function(){
+    googleMap.map.panTo(new google.maps.LatLng(51.512178,-0.108369));
+    googleMap.map.setZoom(12);
+  }, 1000);
+};
+
+googleMap.loggedInState = function(){
+  $('.loggedIn').show();
+  $('.loggedOut').hide();
+  // this.usersIndex();
+};
+
+googleMap.loggedOutState = function(){
+  $('.loggedIn').hide();
+  $('.loggedOut').show();
+  // this.register();
+};
+
+// Register Function
+googleMap.register = function(e){
+  if (e) e.preventDefault();
+  this.$modal.html(`
+    <form method="post" action="/register">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Register</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input class="form-control" type="text" name="user[username]" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="email" name="user[email]" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="user[password]" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="user[passwordConfirmation]" placeholder="Password Confirmation">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input class="btn btn-primary" type="submit" value="Register">
+      </div>
+    </form>
+  `);
+  $('.modal').modal('show');
+};
+
+// Login Function
+googleMap.login = function(e) {
+  if (e) e.preventDefault();
+  this.$modal.html(`
+    <form method="post" action="/login">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input class="form-control" type="email" name="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input class="btn btn-primary" type="submit" value="Login">
+      </div>
+    </form>
+  `);
+  $('.modal').modal('show');
+};
+
+googleMap.logout = function(e){
+  e.preventDefault();
+  this.removeToken();
+  this.loggedOutState();
+};
+
+googleMap.handleForm = function(e){
+  e.preventDefault();
+
+  const url    = `${googleMap.apiUrl}${$(this).attr('action')}`;
+  const method = $(this).attr('method');
+  const data   = $(this).serialize();
+
+  return googleMap.ajaxRequest(url, method, data, data => {
+    if (data.token) googleMap.setToken(data.token);
+    googleMap.loggedInState();
+    $('.modal').modal('hide');
+  });
+};
+
+googleMap.ajaxRequest = function(url, method, data, callback){
+  return $.ajax({
+    url,
+    method,
+    data,
+    beforeSend: this.setRequestHeader.bind(this)
+  })
+  .done(callback)
+  .fail(data => {
+    console.log(data);
+  });
+};
+
+googleMap.setRequestHeader = function(xhr) {
+  return xhr.setRequestHeader('Authorization', `Bearer ${this.getToken()}`);
+};
+
+googleMap.setToken = function(token){
+  return window.localStorage.setItem('token', token);
+};
+
+googleMap.getToken = function(){
+  return window.localStorage.getItem('token');
+};
+
+googleMap.removeToken = function(){
+  return window.localStorage.clear();
+};
+
+// MAP
 // Need to set up the map here - define center of map also, using latlng
 googleMap.mapSetup = function() {
-  console.log('running');
   // console.log(google);
   const canvas = document.getElementById('map-container');
 
   const mapOptions = {
-    zoom: 10,
-    center: new google.maps.LatLng(51.506178,-0.088369),
+    zoom: 12,
+    center: new google.maps.LatLng(51.512178,-0.108369),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
   };
@@ -28,9 +169,8 @@ googleMap.mapSetup = function() {
 
 // A little confused here....
 
-// get venues from yelp API?
+// get venues from yelp API? //error hgoogleMapening here...
 googleMap.getVenues = function() {
-  console.log('reached');
   $.get('http://localhost:3000/api/venues').done(this.loopThroughVenues);
 };
 
@@ -47,32 +187,37 @@ googleMap.createMarkerForVenue = function(venue) {
     position: latlng,
     map: this.map
   });
-  this.addInfoWindowForVenue(venue, marker);
+  this.addModalForVenue(venue, marker);
 };
 
-// Making window with info for venue etc..
-googleMap.addInfoWindowForVenue = function(venue, marker) {
+
+// Replaced infowindow with a modal for info for venue etc..
+googleMap.addModalForVenue = function(venue, marker) {
   google.maps.event.addListener(marker, 'click', () => {
-    if (typeof this.infoWindow !== 'undefined') this.infoWindow.close();
+    if (!googleMap.getToken()) return googleMap.login();
 
-    this.infoWindow = new google.maps.InfoWindow({
-      content:
-      `<h1>${venue.name}</h1>
-      <p>Phone: ${venue.phone}</p>
-      <p>Address: ${venue.address}</p>
-      <p>Price: ${venue.price}</p>
-      <a href="${venue.info}">More Info</a>
-      <br/>
-      <br/>
-      <iframe src="${venue.image}"></iframe>`
-    });
+    $('.modal-content').html(`
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">${venue.name}</h4>
+      </div>
+      <div class="modal-body">
+        <img class="imageModal" src="${venue.image}">
+        <p>Phone: ${venue.phone}</p>
+        <p>Address: ${venue.address}</p>
+        <p>Price: ${venue.price}</p>
+        <a href="${venue.info}">More Info</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save to Favourites</button>
+      </div>`);
 
-    this.infoWindow.open(this.map, marker);
+    $('.modal').modal('show');
     this.map.setCenter(marker.getPosition());
     this.map.setZoom(15);
   });
+// this.map.setZoom(12); figure out how to change soom when clicking out of modal? and save favorites? add city mapper?
 
 };
 
-
-$(googleMap.mapSetup.bind(googleMap));
+$(googleMap.init.bind(googleMap));

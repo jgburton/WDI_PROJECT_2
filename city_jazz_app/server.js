@@ -26,7 +26,8 @@ app.use('/api', expressJWT({ secret: config.secret })
   .unless({
     path: [
       { url: '/api/register', methods: ['POST'] },
-      { url: '/api/login',    methods: ['POST'] }
+      { url: '/api/login',    methods: ['POST'] },
+      { url: '/api/venues',   methods: ['GET'] }
     ]
   }));
 app.use(jwtErrorHandler);
