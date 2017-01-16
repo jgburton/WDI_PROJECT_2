@@ -3,6 +3,7 @@
 // require dependancies needed for accessing mongodb and for password hashing
 const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt');
+const validator = require('validator');
 
 // required input for user login
 const userSchema = new mongoose.Schema({
@@ -23,6 +24,10 @@ userSchema
 userSchema
 .path('passwordHash')
 .validate(validatePasswordHash);
+
+userSchema
+.path('email')
+.validate(validateEmail);
 
 userSchema.methods.validatePassword = validatePassword;
 
@@ -57,9 +62,18 @@ function validatePasswordHash() {
     if(!this._password) {
       return this.invalidate('password', 'A password is required.');
     }
-    if (this.password !== this.passwordConfirmation) {
+    if (this._password.length < 6) {
+      this.invalidate('password', 'must be at least 6 characters.');
+    }
+    if (this._password !== this._passwordConfirmation) {
       return this.invalidate('passwordConfirmation', 'Passwords do not match.');
     }
+  }
+}
+
+function validateEmail(email) {
+  if (!validator.isEmail(email)) {
+    return this.invalidate('email', 'must be a valid email address');
   }
 }
 

@@ -18,13 +18,21 @@ const options = {
 rp(options)
 .then(data => {
   data.businesses.forEach(venue => {
+    // console.log(venue);
     const newVenue =  new Venue({
       name: venue.name,
+      phone: venue.phone,
+      address: venue.location.display_address,
+      price: venue.price,
+      image: venue.image_url,
+      info: venue.url,
       lng: venue.coordinates.longitude,
       lat: venue.coordinates.latitude
     });
 
     newVenue.save((err, venue) => {
+      // to handle error - lang was missing
+      if (err) return console.log(err);
       console.log(`${venue.name} was created`);
     });
   });
@@ -36,6 +44,8 @@ rp(options)
 //     console.log(`${place.name} was created`);
 //   });
 // });
+
+
 
 // $.ajax({
 //   url: 'https://api.yelp.com/v3/businesses/search?location=london&categories=jazzandblues&limit=50',

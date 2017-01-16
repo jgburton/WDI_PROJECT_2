@@ -13,7 +13,6 @@ const venueSchema = mongoose.Schema({
   address: { type: String, trim: true },
   image: { type: String, trim: true },
   info: { type: String, trim: true },
-  url: { type: String, trim: true },
   price: { type: String, trim: true },
   lat: { type: String, trim: true, required: true },
   lng: { type: String, trim: true, required: true }
