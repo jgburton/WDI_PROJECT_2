@@ -7,7 +7,7 @@ const googleMap = googleMap || {};
 const google    = google;
 
 // googleMap.init
-//AUTHENTICATION
+// first task to fire after window onload
 googleMap.init = function() {
   this.apiUrl = 'http://localhost:3000/api';
   this.$modal = $('.modal-content');
@@ -46,7 +46,8 @@ googleMap.loggedOutState = function(){
   // this.register();
 };
 
-// Register Function
+//AUTHENTICATION
+// Register Function - using a modal
 googleMap.register = function(e){
   if (e) e.preventDefault();
   this.$modal.html(`
@@ -77,7 +78,7 @@ googleMap.register = function(e){
     $('.modal').modal('show');
   };
 
-  // Login Function
+  // Login Function - using a modal
   googleMap.login = function(e) {
     if (e) e.preventDefault();
     this.$modal.html(`
@@ -108,6 +109,7 @@ googleMap.register = function(e){
       this.loggedOutState();
     };
 
+    // Function for handelling the form of registration, this must process and save the inputed data.
     googleMap.handleForm = function(e){
       e.preventDefault();
 
@@ -199,58 +201,68 @@ googleMap.register = function(e){
 
     googleMap.loopThroughVenues = function(data) {
       $.each(data.venues, (index, venue) => {
-        googleMap.createMarkerForVenue(venue);
+        setTimeout(function() {
+          googleMap.createMarkerForVenue(venue);
+        },
+        index * 100);
       });
     };
 
-    // create markers on map for the venues via lat/long?
-    googleMap.createMarkerForVenue = function(venue) {
-      const latlng = new google.maps.LatLng(venue.lat, venue.lng);
-      const marker = new google.maps.Marker({
-        position: latlng,
-        map: this.map,
-        animation: google.maps.Animation.DROP
-      });
-      this.addModalForVenue(venue, marker);
-    };
+      // create markers on map for the venues via lat/long?
+      // const icon = {
+      //   url: '../images/user_on_map_2_small.png',
+      //   scaledSize: new google.maps.Size(60,60)
+      // };
 
 
-    // Replaced infowindow with a modal for info for venue etc..
-    googleMap.addModalForVenue = function(venue, marker) {
-      google.maps.event.addListener(marker, 'click', () => {
-        if (!googleMap.getToken()) return googleMap.login();
-
-        $('.modal-content').html(`
-          <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">${venue.name}</h4>
-          </div>
-          <div class="modal-body">
-          <img class="imageModal" src="${venue.image}">
-          <p>Phone: ${venue.phone}</p>
-          <p>Address: ${venue.address}</p>
-          <p>Price: ${venue.price}</p>
-          <a href="${venue.info}">More Info</a>
-          </div>
-          <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save to Favourites</button>
-          <a href="https://citymapper.com/directions?endcoord=51.560555%2C-0.074077&endaddress=${venue.address}"><img src="/images/citymapper.png"></a>
-          </div>`);
-
-          $('.modal').modal('show');
-          this.map.setCenter(marker.getPosition());
-          this.map.setZoom(15);
+      googleMap.createMarkerForVenue = function(venue) {
+        const latlng = new google.maps.LatLng(venue.lat, venue.lng);
+        const marker = new google.maps.Marker({
+          position: latlng,
+          map: this.map,
+          // icon:'https://s-media-cache-ak0.pinimg.com/236x/f0/fc/28/f0fc28e35759d8d7a1c5fbc294350df9.jpg'
+          // animation: google.maps.Animation.DROP
         });
-        // this.map.setZoom(12); figure out how to change soom when clicking out of modal? and save favorites? add city mapper?
+        this.addModalForVenue(venue, marker);
       };
 
-      // googleMap.geoLocationOfUser = function(venue) {
-      //   if (navigator.geolocation) {
-      //             navigator.geolocation.getCurrentPosition(function(position) {
-      //               var pos = {
-      //                 lat: position.coords.latitude,
-      //                 lng: position.coords.longitude
-      //               };
-      // }
 
-      $(googleMap.init.bind(googleMap));
+      // Replaced infowindow with a modal for info for venue as it looks much slicker
+      googleMap.addModalForVenue = function(venue, marker) {
+        google.maps.event.addListener(marker, 'click', () => {
+          if (!googleMap.getToken()) return googleMap.login();
+
+          $('.modal-content').html(`
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">${venue.name}</h4>
+            </div>
+            <div class="modal-body">
+            <img class="imageModal" src="${venue.image}">
+            <p>Phone: ${venue.phone}</p>
+            <p>Address: ${venue.address}</p>
+            <p>Price: ${venue.price}</p>
+            <a href="${venue.info}">More Info</a>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save to Favourites</button>
+            <a href="https://citymapper.com/directions?endcoord=51.560555%2C-0.074077&endaddress=${venue.address}"><img src="/images/citymapper.png"></a>
+            </div>`);
+
+            $('.modal').modal('show');
+            this.map.setCenter(marker.getPosition());
+            this.map.setZoom(15);
+          });
+          // this.map.setZoom(12); figure out how to change soom when clicking out of modal? and save favorites? add city mapper?
+        };
+
+        // googleMap.geoLocationOfUser = function(venue) {
+        //   if (navigator.geolocation) {
+        //             navigator.geolocation.getCurrentPosition(function(position) {
+        //               var pos = {
+        //                 lat: position.coords.latitude,
+        //                 lng: position.coords.longitude
+        //               };
+        // }
+        // Loading the page binding this to the object googleMap
+        $(googleMap.init.bind(googleMap));
