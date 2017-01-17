@@ -21,3 +21,14 @@ body {
   height: auto;
   max-height: 300px;
 }
+
+.blurry  {
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+  // width: 100px;
+  // height: 100px;
+  background-color: #ccc;
+}

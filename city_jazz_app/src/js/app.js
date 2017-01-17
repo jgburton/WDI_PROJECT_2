@@ -14,6 +14,7 @@ googleMap.init = function() {
   $('.register').on('click', this.register.bind(this));
   $('.login').on('click', this.login.bind(this));
   $('.logout').on('click', this.logout.bind(this));
+  $('.findme').on('click', this.whereAmI.bind(this));
   this.$modal.on('submit', 'form', this.handleForm);
   this.$modal.on('click', '.close', this.repositionMap);
   // this.$modal.on('hidden', this.repositonMap);
@@ -34,16 +35,23 @@ googleMap.repositionMap = function(){
   }, 1000);
 };
 
+// googleMap.blurWhenloggedOut = function(){
+//   googleMap.map.blur('5px');
+// }
+
 googleMap.loggedInState = function(){
   $('.loggedIn').show();
   $('.loggedOut').hide();
-  // this.usersIndex();
+  $('#map-container').removeClass('blurry');
+  this.getVenues();
+  // this.whereAmI();
 };
 
 googleMap.loggedOutState = function(){
   $('.loggedIn').hide();
   $('.loggedOut').show();
-  // this.register();
+  this.login();
+  $('#map-container').addClass('blurry');
 };
 
 //AUTHENTICATION
@@ -158,7 +166,6 @@ googleMap.register = function(e){
     googleMap.mapSetup = function() {
 
       const canvas = document.getElementById('map-container');
-
       const mapOptions = {
         zoom: 12,
         center: new google.maps.LatLng(51.512178,-0.108369),
@@ -166,7 +173,12 @@ googleMap.register = function(e){
         styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
       };
       this.map = new google.maps.Map(canvas, mapOptions);
-      this.getVenues();
+      // this.getVenues();
+
+      // console.log(google);
+    };
+
+    googleMap.whereAmI = function(){
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -189,7 +201,6 @@ googleMap.register = function(e){
           });
         });
       }
-      // console.log(google);
     };
 
     // A little confused here....
