@@ -9,8 +9,9 @@ const google    = google;
 // googleMap.init
 // first task to fire after window onload
 googleMap.init = function() {
-  this.apiUrl = 'http://localhost:3000/api';
-  this.$modal = $('.modal-content');
+  this.markers = [];
+  this.apiUrl  = 'http://localhost:3000/api';
+  this.$modal  = $('.modal-content');
   $('.register').on('click', this.register.bind(this));
   $('.login').on('click', this.login.bind(this));
   $('.logout').on('click', this.logout.bind(this));
@@ -25,6 +26,20 @@ googleMap.init = function() {
     this.loggedInState();
   } else {
     this.loggedOutState();
+  }
+};
+
+googleMap.clearMarkers = function(){
+  if(this.markers.length !== 0) {
+    $.each(this.markers, (index, marker) => {
+      marker.setMap(null);
+    });
+    this.markers = [];
+  }
+
+  if (googleMap.locationMarker || googleMap.circle) {
+    googleMap.locationMarker.setMap(null);
+    googleMap.circle.setMap(null);
   }
 };
 
@@ -49,8 +64,9 @@ googleMap.loggedInState = function(){
 googleMap.loggedOutState = function(){
   $('.loggedIn').hide();
   $('.loggedOut').show();
-  this.register();
+  // this.register();
   $('#map-container').addClass('blurry');
+  googleMap.clearMarkers();
 };
 
 //AUTHENTICATION
@@ -191,15 +207,14 @@ googleMap.register = function(e){
             scaledSize: new google.maps.Size(60,60)
           };
 
-          new google.maps.Marker({
+          googleMap.locationMarker = new google.maps.Marker({
             position: latlng,
             map: googleMap.map,
             animation: google.maps.Animation.DROP,
             icon: icon
-
           });
 
-          new google.maps.Circle({
+          googleMap.circle = new google.maps.Circle({
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -251,6 +266,8 @@ googleMap.register = function(e){
           map: this.map
 
         });
+
+        this.markers.push(marker);
         this.addModalForVenue(venue, marker);
       };
 
@@ -279,7 +296,7 @@ googleMap.register = function(e){
             <p>Phone: ${venue.phone}</p>
             <p>Address: ${venue.address}</p>
             <p>Price: ${venue.price}</p>
-            <a href="${venue.info}">More Info</a>
+            <a href="${venue.info}" target="_blank">More Info</a>
             </div>
             <div class="modal-footer">
             <a href="https://citymapper.com/directions?endcoord=51.560555%2C-0.074077&endaddress=${venue.address}" target="_blank"><img src="/images/citymapper.png"></a>
@@ -289,16 +306,8 @@ googleMap.register = function(e){
             this.map.setCenter(marker.getPosition());
             this.map.setZoom(15);
           });
-          // this.map.setZoom(12); figure out how to change soom when clicking out of modal? and save favorites? add city mapper?
+
         };
 
-        // googleMap.geoLocationOfUser = function(venue) {
-        //   if (navigator.geolocation) {
-        //             navigator.geolocation.getCurrentPosition(function(position) {
-        //               var pos = {
-        //                 lat: position.coords.latitude,
-        //                 lng: position.coords.longitude
-        //               };
-        // }
-        // Loading the page binding this to the object googleMap
+
         $(googleMap.init.bind(googleMap));
