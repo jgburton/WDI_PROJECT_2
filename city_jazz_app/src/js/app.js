@@ -198,6 +198,17 @@ googleMap.register = function(e){
             icon: icon
 
           });
+
+          new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: googleMap.map,
+            center: latlng,
+            radius: 3000
+          });
         });
       }
     };
@@ -237,7 +248,7 @@ googleMap.register = function(e){
           animation: google.maps.Animation.DROP,
           icon: icon,
           position: latlng,
-          map: this.map,
+          map: this.map
 
         });
         this.addModalForVenue(venue, marker);
@@ -271,8 +282,7 @@ googleMap.register = function(e){
             <a href="${venue.info}">More Info</a>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save to Favourites</button>
-            <a href="https://citymapper.com/directions?endcoord=51.560555%2C-0.074077&endaddress=${venue.address}"><img src="/images/citymapper.png"></a>
+            <a href="https://citymapper.com/directions?endcoord=51.560555%2C-0.074077&endaddress=${venue.address}" target="_blank"><img src="/images/citymapper.png"></a>
             </div>`);
 
             $('.modal').modal('show');
