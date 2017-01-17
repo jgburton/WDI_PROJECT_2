@@ -16,7 +16,7 @@ googleMap.init = function() {
   $('.logout').on('click', this.logout.bind(this));
   $('.findme').on('click', this.whereAmI.bind(this));
   this.$modal.on('submit', 'form', this.handleForm);
-  this.$modal.on('click', '.close', this.repositionMap);
+  $('body').on('click', '.refreshMarkers', this.repositionMap);
   // this.$modal.on('hidden', this.repositonMap);
 
   this.mapSetup();
@@ -29,15 +29,14 @@ googleMap.init = function() {
 };
 
 googleMap.repositionMap = function(){
+  console.log('firing');
   setTimeout(function(){
     googleMap.map.panTo(new google.maps.LatLng(51.512178,-0.108369));
     googleMap.map.setZoom(12);
-  }, 1000);
+  }, 200);
 };
 
-// googleMap.blurWhenloggedOut = function(){
-//   googleMap.map.blur('5px');
-// }
+
 
 googleMap.loggedInState = function(){
   $('.loggedIn').show();
@@ -50,7 +49,7 @@ googleMap.loggedInState = function(){
 googleMap.loggedOutState = function(){
   $('.loggedIn').hide();
   $('.loggedOut').show();
-  this.login();
+  this.register();
   $('#map-container').addClass('blurry');
 };
 
@@ -83,7 +82,7 @@ googleMap.register = function(e){
     </div>
     </form>
     `);
-    $('.modal').modal('show');
+  $('.modal').modal('show');
   };
 
   // Login Function - using a modal
@@ -170,7 +169,7 @@ googleMap.register = function(e){
         zoom: 12,
         center: new google.maps.LatLng(51.512178,-0.108369),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
+        styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}]
       };
       this.map = new google.maps.Map(canvas, mapOptions);
       // this.getVenues();
@@ -228,14 +227,30 @@ googleMap.register = function(e){
 
       googleMap.createMarkerForVenue = function(venue) {
         const latlng = new google.maps.LatLng(venue.lat, venue.lng);
+        const icon = {
+          url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1882-200.png',
+          scaledSize: new google.maps.Size(50,50)
+        };
+
         const marker = new google.maps.Marker({
+          map: googleMap.map,
+          animation: google.maps.Animation.DROP,
+          icon: icon,
           position: latlng,
           map: this.map,
-          // icon:'https://s-media-cache-ak0.pinimg.com/236x/f0/fc/28/f0fc28e35759d8d7a1c5fbc294350df9.jpg'
-          // animation: google.maps.Animation.DROP
+
         });
         this.addModalForVenue(venue, marker);
       };
+
+
+
+      //
+      // new google.maps.Marker({
+      //   position: latlng,
+      //   map: googleMap.map,
+      //   animation: google.maps.Animation.DROP,
+      //   icon: icon
 
 
       // Replaced infowindow with a modal for info for venue as it looks much slicker

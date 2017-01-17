@@ -32,3 +32,39 @@ body {
   // height: 100px;
   background-color: #ccc;
 }
+
+.navbar-brand {
+	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+	font-size: 25px;
+	font-style: italic;;
+	font-variant: normal;
+	font-weight: 500;
+  color:#e7e7e7
+	// line-height: 26.4px;
+}
+
+.navbar .navbar-brand {
+  color:#e7e7e7
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #e7e7e7;
+}
+.navbar {
+  background-color: #7f0000;
+  height: 50px;
+}
+
+.modal-backdrop {
+  background: gray;
+}
+
+.p1 {
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+	font-size: 13px;
+	font-style: italic;
+	font-variant: normal;
+	font-weight: 500;
+  line-height: 50px;
+  color:#e7e7e7
+}
