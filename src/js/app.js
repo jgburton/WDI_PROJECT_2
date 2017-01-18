@@ -188,9 +188,6 @@ googleMap.register = function(e){
         styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":21}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#dedede"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#333333"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#f2f2f2"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#fefefe"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#fefefe"},{"lightness":17},{"weight":1.2}]}]
       };
       this.map = new google.maps.Map(canvas, mapOptions);
-      // this.getVenues();
-
-      // console.log(google);
     };
 
     googleMap.whereAmI = function(){
@@ -228,7 +225,7 @@ googleMap.register = function(e){
       }
     };
 
-    
+
 
     // get venues from yelp API? //error hgoogleMapening here...
     googleMap.getVenues = function() {
@@ -244,11 +241,7 @@ googleMap.register = function(e){
       });
     };
 
-      // create markers on map for the venues via lat/long?
-      // const icon = {
-      //   url: '../images/user_on_map_2_small.png',
-      //   scaledSize: new google.maps.Size(60,60)
-      // };
+
 
 
       googleMap.createMarkerForVenue = function(venue) {
