@@ -18,7 +18,7 @@ googleMap.init = function() {
   $('.findme').on('click', this.whereAmI.bind(this));
   this.$modal.on('submit', 'form', this.handleForm);
   $('body').on('click', '.refreshMarkers', this.repositionMap);
-  // this.$modal.on('hidden', this.repositonMap);
+
 
   this.mapSetup();
 
@@ -228,7 +228,7 @@ googleMap.register = function(e){
       }
     };
 
-    // A little confused here....
+    
 
     // get venues from yelp API? //error hgoogleMapening here...
     googleMap.getVenues = function() {
