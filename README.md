@@ -10,9 +10,7 @@ For the second project on WDI I built a map based application to locate jazz ven
 
 ## Technology
 
-The technology stack used consists of an Express back-end, MongoDB database and a mixture of jQuery and JavaScript on the front end. The full list of dependencies can be found in```package.json```. 
-
-Restfull Express App.
+The technology stack used consists of an Restfull Express back-end, MongoDB database and a mixture of jQuery and JavaScript on the front end. The full list of dependencies can be found in```package.json```. 
 
 ###Approach to the build of City Jazz: <br>
 1. Set up the map using the Google Maps API after requesting an API key. Then determine the coordinates for the center of the map, make equilivalent to central London. <br>
@@ -24,8 +22,6 @@ Restfull Express App.
 7. Adding the City Mapper widget to the modals to get the user to the jazz venue.
 8. Authentication coding and set up. Managing logged in and logged out states. Restricting access to the map and clearing of markers.<br>
 9. Styling/design and aditional animations.<br>
-
-TO COMPLETE:
 
 ###The completed game is deployed on Heroku:
 
