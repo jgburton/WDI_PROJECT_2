@@ -24,8 +24,7 @@ The technology stack used consists of an RESTfull Express back-end, MongoDB data
 9. Styling/design and aditional animations.<br>
 
 ###The completed game is deployed on Heroku:
-
-Will link to live application when deployed.
+https://city-jazz.herokuapp.com
 
 ###Wins
 It was my first experience using API's, understanding them conceptually and implementing two into the project. Additionaly using MongoDB as a database and implemetning authentication for users.
