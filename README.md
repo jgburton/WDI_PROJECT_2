@@ -6,9 +6,22 @@ This is my second project for the Web Development Immersive bootcamp at General 
  
 ## City Jazz - Maps API
 
-For the second project on WDI I built a map based application to locate jazz venues in London. This was achieved by integrating the google maps API and a yelp API for the venue data.
+For the second project on WDI I built a map based application to locate jazz venues in London. This was achieved by integrating the google maps API and a yelp API for the venue data. The navigation is achieved using the CityMapper widget.
 
+Home
 ![](http://i.imgur.com/sO10nUc.png)
+
+Find Jazz Venues near you
+![](http://i.imgur.com/Xieu6f5.png)
+
+Find Jazz Venues near you
+![](http://i.imgur.com/Xieu6f5.png)
+
+Choose a venue
+![](http://i.imgur.com/3s93dMh.png)
+
+Navigate to the venue
+![](http://i.imgur.com/CuUEWdi.png)
 
 ## Technology
 
