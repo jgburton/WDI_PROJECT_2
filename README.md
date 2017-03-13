@@ -3,11 +3,9 @@
 
 ___
 <br>
-# WDI PROJECT 2
+# PROJECT 2
 This is my second project for the Web Development Immersive bootcamp at General Assembly.
 <br>
-
-## GA WDI Project 2
  
 ## City Jazz - Maps API
 
