@@ -14,9 +14,6 @@ Home
 Find Jazz Venues near you
 ![](http://i.imgur.com/Xieu6f5.png)
 
-Find Jazz Venues near you
-![](http://i.imgur.com/Xieu6f5.png)
-
 Choose a venue
 ![](http://i.imgur.com/3s93dMh.png)
 
