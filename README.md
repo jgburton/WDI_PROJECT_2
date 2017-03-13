@@ -8,6 +8,8 @@ This is my second project for the Web Development Immersive bootcamp at General 
 
 For the second project on WDI I built a map based application to locate jazz venues in London. This was achieved by integrating the google maps API and a yelp API for the venue data.
 
+![](http://i.imgur.com/sO10nUc.png)
+
 ## Technology
 
 The technology stack used consists of an RESTfull Express back-end, MongoDB database and a mixture of jQuery and JavaScript on the front end. The full list of dependencies can be found in```package.json```. 
